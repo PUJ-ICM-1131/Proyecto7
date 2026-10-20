@@ -221,7 +221,7 @@ fun MapScreen(
                     }
                 }
             }
-
+            /*
             // Panel Inferior de Datos de Navegación
             Card(
                 modifier = Modifier
@@ -249,7 +249,7 @@ fun MapScreen(
                     }
 
                     Spacer(modifier = Modifier.height(8.dp))
-
+                    /*
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.SpaceBetween,
@@ -286,9 +286,15 @@ fun MapScreen(
                         Text(if (simulatedFastSpeed) stringResource(R.string.btn_stop_simulation) else stringResource(R.string.btn_test_speed_warning))
                     }
 
+                     */
+
 
                 }
+
+
             }
+
+             */
         }
     }
 }

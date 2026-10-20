@@ -171,7 +171,6 @@ fun EnCursoTab(
                 MapboxMapView(
                     test = inscripcion.test,
                     sensorData = sensorData,
-                    onOpenFullMap = { onOpenFullMap?.invoke(inscripcion.test.id) },
                     modifier = Modifier.padding(bottom = 16.dp)
                 )
 
@@ -181,11 +180,7 @@ fun EnCursoTab(
                     colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.4f))
                 ) {
                     Column(modifier = Modifier.padding(16.dp)) {
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.SpaceBetween,
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
+
                             Column {
                                 Text(
                                     text = stringResource(R.string.evidence_section_title),
@@ -207,7 +202,7 @@ fun EnCursoTab(
                                 Spacer(modifier = Modifier.width(6.dp))
                                 Text(stringResource(R.string.btn_upload_media), fontSize = 12.sp)
                             }
-                        }
+
 
                         HorizontalDivider(modifier = Modifier.padding(vertical = 12.dp))
 

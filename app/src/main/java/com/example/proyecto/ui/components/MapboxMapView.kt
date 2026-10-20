@@ -460,7 +460,7 @@ fun MapboxMapView(
                     }
                 }
             }
-
+            /*
             // =================================================
             // INFORMACIÓN DE ORIENTACIÓN Y DISTANCIA
             // =================================================
@@ -531,10 +531,12 @@ fun MapboxMapView(
                     modifier = Modifier.height(10.dp)
                 )
 
+             */
+
                 // =================================================
                 // BOTÓN PARA PROBAR LA ALARMA
                 // =================================================
-
+                /*
                 OutlinedButton(
                     onClick = {
                         simulatedFastSpeed = !simulatedFastSpeed
@@ -564,7 +566,11 @@ fun MapboxMapView(
                         }
                     )
                 }
+
+
             }
+
+                 */
         }
     }
 }
