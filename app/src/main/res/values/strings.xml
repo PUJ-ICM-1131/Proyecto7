@@ -1,0 +1,121 @@
+<resources>
+    <string name="app_name">TestFinder</string>
+    <string name="btn_close_session">Cerrar Sesión</string>
+    <string name="btn_save_changes">Guardar Cambios</string>
+    <string name="btn_back">Atrás</string>
+    <string name="label_na">N/A</string>
+
+    <!-- Login Screen -->
+    <string name="login_title">Bienvenido a TestFinder</string>
+    <string name="login_subtitle">Inicia sesión para explorar y participar en tests de productos</string>
+    <string name="chip_user_tester">Usuario Tester</string>
+    <string name="chip_empresa">Empresa</string>
+    <string name="field_user_email">Usuario o Correo</string>
+    <string name="field_password">Contraseña</string>
+    <string name="btn_login">Iniciar Sesión</string>
+    <string name="login_demo_credentials">Credenciales predeterminadas para prueba:\nUsuario: prueba | Contraseña: 1234</string>
+    <string name="login_no_account">¿No tienes una cuenta?</string>
+    <string name="login_register_action">Registrarme</string>
+    <string name="login_err_invalid">Credenciales inválidas. Usa usuario \'prueba\' y contraseña \'1234\'.</string>
+    <string name="login_err_generic">Error al iniciar sesión</string>
+
+    <!-- Register Screen -->
+    <string name="register_title">Crear Cuenta</string>
+    <string name="register_subtitle">Selecciona el tipo de perfil a registrar</string>
+    <string name="field_full_name">Nombre Completo</string>
+    <string name="field_age">Edad</string>
+    <string name="field_birth_date">F. Nacimiento</string>
+    <string name="field_birth_date_placeholder">DD/MM/AAAA</string>
+    <string name="field_stratum">Estrato socioeconómico: %1$d</string>
+    <string name="field_address">Dirección</string>
+    <string name="field_email">Correo Electrónico</string>
+    <string name="field_phone">Teléfono de Contacto</string>
+    <string name="field_company_name">Nombre de la Empresa</string>
+    <string name="field_company_rut">RUT de la Empresa</string>
+    <string name="field_company_email">Correo Corporativo</string>
+    <string name="field_company_phone">Número de Contacto</string>
+    <string name="field_company_address">Dirección Fiscal</string>
+    <string name="btn_complete_registration">Completar Registro</string>
+    <string name="err_password_empty">Por favor ingresa una contraseña.</string>
+
+    <!-- Empresa Welcome Screen -->
+    <string name="empresa_panel_title">Panel de Empresa</string>
+    <string name="empresa_welcome_msg">¡Bienvenido, %1$s!</string>
+    <string name="empresa_default_name">Empresa</string>
+    <string name="empresa_subtitle">Módulo de gestión de campañas de testing para empresas</string>
+    <string name="empresa_info_title">Información Registrada</string>
+    <string name="empresa_rut_label">RUT: %1$s</string>
+    <string name="empresa_email_label">Correo: %1$s</string>
+    <string name="empresa_phone_label">Teléfono: %1$s</string>
+    <string name="empresa_address_label">Dirección: %1$s</string>
+    <string name="empresa_status_title">Estado del Servicio</string>
+    <string name="empresa_status_subtitle">3 tests activos publicados en la plataforma</string>
+
+    <!-- Test Detail Screen -->
+    <string name="test_detail_title">Detalles del Test</string>
+    <string name="test_not_found">Test no encontrado.</string>
+    <string name="test_reward_label">Recompensa por participar</string>
+    <string name="test_location_label">Ubicación del test</string>
+    <string name="test_description_title">Descripción del Test</string>
+    <string name="test_criteria_title">Criterios y Requisitos de Aplicación</string>
+    <string name="test_criteria_fulfilled">Cumples los criterios para este test</string>
+    <string name="test_criteria_unfulfilled">Requisitos específicos requeridos:</string>
+    <string name="btn_enroll_test">Inscribirme y Empezar Test</string>
+    <string name="test_reviews_title">Reseñas del Producto (%1$d)</string>
+    <string name="test_no_reviews">Aún no hay reseñas registradas para este test. ¡Sé el primero en dejar tu opinión!</string>
+    <string name="test_add_review_title">Añadir tu reseña</string>
+    <string name="test_review_placeholder">Escribe tu reseña u opinión del producto...</string>
+    <string name="btn_publish_review">Publicar Reseña</string>
+    <string name="review_user_placeholder">Usuario Actual</string>
+
+    <!-- User Main Screen -->
+    <string name="tab_explorar">Explorar</string>
+    <string name="tab_historial">Historial</string>
+    <string name="tab_en_curso">En Curso</string>
+    <string name="tab_perfil">Perfil</string>
+    <string name="header_explorar">Explorar Tests</string>
+    <string name="header_historial">Historial de Tests</string>
+    <string name="header_en_curso">Tests en Curso y Mapa</string>
+    <string name="header_perfil">Opciones de Perfil</string>
+
+    <!-- Explorar Tab -->
+    <string name="explorar_eligible_title">Tests a los que puedes aplicar (%1$d)</string>
+    <string name="explorar_no_eligible">No hay tests con requisitos cumplidos en este momento.</string>
+    <string name="explorar_other_title">Otros tests disponibles (Requisitos no cumplidos) (%1$d)</string>
+    <string name="explorar_no_other">No hay otros tests pendientes.</string>
+    <string name="tag_eligible">Apto para aplicar</string>
+    <string name="tag_not_eligible">No cumples requisitos</string>
+    <string name="label_criteria">Criterios: %1$s</string>
+    <string name="cd_see_details">Ver detalles</string>
+
+    <!-- Historial Tab -->
+    <string name="historial_title">Historial de Tests Realizados (%1$d)</string>
+    <string name="historial_empty">Aún no has completado ningún test. Tus participaciones finalizadas aparecerán aquí.</string>
+    <string name="label_reward_status">Recompensa: %1$s</string>
+
+    <!-- En Curso Tab -->
+    <string name="en_curso_title">Tests en Curso (%1$d)</string>
+    <string name="en_curso_empty">No tienes tests en curso en este momento. Explora la lista de tests disponibles e inscríbete para empezar.</string>
+    <string name="evidence_section_title">Evidencias del Test</string>
+    <string name="evidence_section_subtitle">Sube fotos o videos como prueba de tu participación</string>
+    <string name="btn_upload_media">Subir Foto/Video</string>
+    <string name="evidence_empty">Sin evidencias adjuntas aún. Toca en \'Subir Foto/Video\' para agregar.</string>
+
+    <!-- Mapbox Map View -->
+    <string name="mapbox_sdk_title">Mapbox Navigation SDK</string>
+    <string name="key_pending">Key Pendiente</string>
+    <string name="key_active">Key Activa</string>
+    <string name="warning_title">¡ADVERTENCIA DE SEGURIDAD!</string>
+    <string name="warning_body">Es peligroso conducir y usar el celular al mismo tiempo.</string>
+    <string name="label_your_location">Tu Ubicación</string>
+    <string name="label_destination">Destino: %1$s</string>
+    <string name="label_orientation">Orientación: %1$s</string>
+    <string name="label_distance">Distancia aprox: 3.4 km</string>
+    <string name="btn_stop_simulation">Detener simulación de velocidad alta</string>
+    <string name="btn_test_speed_warning">Probar Alerta de Velocidad (Acelerómetro)</string>
+
+    <!-- Perfil Tab -->
+    <string name="profile_title">Perfil de Usuario</string>
+    <string name="profile_subtitle">Edita tus datos personales para mantener al día tus criterios de test</string>
+    <string name="profile_updated_success">¡Perfil actualizado con éxito!</string>
+</resources>
