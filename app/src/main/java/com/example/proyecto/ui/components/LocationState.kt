@@ -2,9 +2,8 @@ package com.example.proyecto.ui.components
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.pm.PackageManager
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -12,6 +11,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
@@ -44,32 +44,26 @@ fun rememberUserCoordinates(): UserCoordinates? {
         )
     }
 
-    val permissionLauncher =
-        rememberLauncherForActivityResult(
-            ActivityResultContracts.RequestMultiplePermissions()
-        ) { permissions ->
-            permissionGranted =
-                permissions[Manifest.permission.ACCESS_FINE_LOCATION] == true ||
-                        permissions[Manifest.permission.ACCESS_COARSE_LOCATION] == true
-        }
-
     LaunchedEffect(Unit) {
         if (!permissionGranted) {
-            permissionLauncher.launch(
-                arrayOf(
-                    Manifest.permission.ACCESS_FINE_LOCATION,
-                    Manifest.permission.ACCESS_COARSE_LOCATION
+            val activity = context as? Activity
+            if (activity != null) {
+                ActivityCompat.requestPermissions(
+                    activity,
+                    arrayOf(
+                        Manifest.permission.ACCESS_FINE_LOCATION,
+                        Manifest.permission.ACCESS_COARSE_LOCATION
+                    ),
+                    1001
                 )
-            )
+            }
         }
     }
 
     LaunchedEffect(permissionGranted) {
         if (permissionGranted) {
-            val client =
-                LocationServices.getFusedLocationProviderClient(context)
-
             try {
+                val client = LocationServices.getFusedLocationProviderClient(context)
                 val location = client.getCurrentLocation(
                     Priority.PRIORITY_HIGH_ACCURACY,
                     null

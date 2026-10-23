@@ -56,7 +56,6 @@ fun ExplorarTab(
             .padding(horizontal = 16.dp, vertical = 8.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        // Sección 1: Tests a los que cumple requisitos
         item {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
@@ -91,8 +90,6 @@ fun ExplorarTab(
                 TestCardItem(test = test, onClick = { onTestClick(test.id) })
             }
         }
-
-        // Sección 2: Tests a los que no pudo aplicar
         item {
             Spacer(modifier = Modifier.height(16.dp))
             Row(
@@ -149,7 +146,6 @@ fun TestCardItem(
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
-            // Requisito Chip y Recompensa
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -186,8 +182,6 @@ fun TestCardItem(
             }
 
             Spacer(modifier = Modifier.height(10.dp))
-
-            // Nombre
             Text(
                 text = test.nombre,
                 style = MaterialTheme.typography.titleMedium,
@@ -196,7 +190,6 @@ fun TestCardItem(
 
             Spacer(modifier = Modifier.height(6.dp))
 
-            // Descripción
             Text(
                 text = test.descripcion,
                 style = MaterialTheme.typography.bodySmall,
@@ -206,7 +199,6 @@ fun TestCardItem(
 
             Spacer(modifier = Modifier.height(10.dp))
 
-            // Criterios
             Text(
                 text = stringResource(R.string.label_criteria, test.criteriosAplicacion),
                 style = MaterialTheme.typography.labelSmall,
@@ -215,7 +207,6 @@ fun TestCardItem(
 
             Spacer(modifier = Modifier.height(6.dp))
 
-            // Dirección y Ver Más
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,

@@ -68,7 +68,6 @@ suspend fun fetchMapboxRoute(
         for (i in 0 until coordinates.length()) {
             val coordinate = coordinates.getJSONArray(i)
 
-            // GeoJSON entrega [longitud, latitud].
             val longitude = coordinate.getDouble(0)
             val latitude = coordinate.getDouble(1)
 

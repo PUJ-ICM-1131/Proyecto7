@@ -118,4 +118,12 @@
     <string name="profile_title">Perfil de Usuario</string>
     <string name="profile_subtitle">Edita tus datos personales para mantener al día tus criterios de test</string>
     <string name="profile_updated_success">¡Perfil actualizado con éxito!</string>
+
+    <!-- Biometría -->
+    <string name="biometric_prompt_title">Autenticación Biométrica</string>
+    <string name="biometric_prompt_subtitle">Coloca tu huella digital para confirmar tu identidad antes de iniciar sesión</string>
+    <string name="biometric_prompt_cancel">Cancelar</string>
+    <string name="biometric_btn_fingerprint">Verificar Huella Digital</string>
+    <string name="biometric_success_msg">Huella verificada correctamente</string>
+    <string name="biometric_err_msg">No se pudo verificar la huella o el dispositivo no la tiene configurada.</string>
 </resources>

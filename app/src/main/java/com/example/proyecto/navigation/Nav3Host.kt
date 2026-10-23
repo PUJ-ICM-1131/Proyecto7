@@ -107,17 +107,12 @@ fun Nav3Host(
                         }
                     )
                 }
-                else->{
-                    LoginScreen(
-                        authRepository = authRepository,
-                        onNavigateToRegister = {
-                            navController.navigateTo(Nav3Key.Register)
-                        },
-                        onLoginSuccessUsuario = {
-                            navController.popAllAndNavigateTo(Nav3Key.UserMain)
-                        },
-                        onLoginSuccessEmpresa = {
-                            navController.popAllAndNavigateTo(Nav3Key.EmpresaWelcome)
+                is Nav3Key.MapDetail -> {
+                    MapScreen(
+                        testId = key.testId,
+                        testRepository = testRepository,
+                        onBack = {
+                            navController.popBackStack()
                         }
                     )
                 }

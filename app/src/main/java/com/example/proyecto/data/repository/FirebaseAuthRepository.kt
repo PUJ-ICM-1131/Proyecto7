@@ -37,8 +37,6 @@ class FirebaseAuthRepository(
             val firebaseUser = result.user
                 ?: throw Exception("No se pudo obtener el usuario.")
 
-            // El perfil se completa con los datos del modelo.
-            // El tipo seleccionado se usa provisionalmente.
             val state = AuthState(
                 isAuthenticated = true,
                 tipoUsuario = tipo,

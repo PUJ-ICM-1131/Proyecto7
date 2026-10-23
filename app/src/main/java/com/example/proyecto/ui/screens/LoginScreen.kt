@@ -21,7 +21,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Business
 import androidx.compose.material.icons.filled.Email
-import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.Fingerprint
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Visibility
@@ -35,6 +35,7 @@ import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -47,6 +48,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -55,14 +57,14 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.fragment.app.FragmentActivity
 import com.example.proyecto.R
 import com.example.proyecto.data.repository.AuthRepository
 import com.example.proyecto.data.repository.TipoUsuario
+import com.example.proyecto.ui.components.showBiometricPrompt
 import kotlinx.coroutines.launch
+
 @OptIn(ExperimentalMaterial3Api::class)
-
-
-
 @Composable
 fun LoginScreen(
     authRepository: AuthRepository,
@@ -71,15 +73,54 @@ fun LoginScreen(
     onLoginSuccessEmpresa: () -> Unit
 ) {
     var tipoSeleccionado by remember { mutableStateOf(TipoUsuario.USUARIO) }
-    var correoUser by remember { mutableStateOf("") }
-    var contrasena by remember { mutableStateOf("") }
+    var correoUser by remember { mutableStateOf("a@a.com") }
+    var contrasena by remember { mutableStateOf("123456") }
     var mostrarContrasena by remember { mutableStateOf(false) }
 
     var isLoading by remember { mutableStateOf(false) }
+    var huellaVerificada by remember { mutableStateOf(false) }
     var errorMessage by remember { mutableStateOf<String?>(null) }
 
+    val context = LocalContext.current
     val scope = rememberCoroutineScope()
     val errGenericMsg = stringResource(R.string.login_err_generic)
+
+    val performLogin = {
+        isLoading = true
+        errorMessage = null
+        scope.launch {
+            val result = authRepository.login(correoUser, contrasena, tipoSeleccionado)
+            isLoading = false
+            result.onSuccess { state ->
+                if (state.tipoUsuario == TipoUsuario.USUARIO) {
+                    onLoginSuccessUsuario()
+                } else {
+                    onLoginSuccessEmpresa()
+                }
+            }.onFailure { exception ->
+                errorMessage = exception.message ?: errGenericMsg
+            }
+        }
+    }
+
+    val triggerBiometricAuth = {
+        val activity = context as? FragmentActivity
+        if (activity != null) {
+            showBiometricPrompt(
+                activity = activity,
+                onSuccess = {
+                    huellaVerificada = true
+                    performLogin()
+                },
+                onError = { err ->
+                    errorMessage = "Atención con la huella: $err. Intentando autenticar..."
+                    performLogin()
+                }
+            )
+        } else {
+            performLogin()
+        }
+    }
 
     Box(
         modifier = Modifier
@@ -94,7 +135,6 @@ fun LoginScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            // Icono App Header
             Surface(
                 shape = CircleShape,
                 color = MaterialTheme.colorScheme.primaryContainer,
@@ -129,7 +169,6 @@ fun LoginScreen(
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            // Selector Tipo de Usuario (Usuario vs Empresa)
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.Center
@@ -164,15 +203,12 @@ fun LoginScreen(
 
             Spacer(modifier = Modifier.height(20.dp))
 
-            // Card Formulario de Credenciales
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(16.dp),
                 colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f))
             ) {
                 Column(modifier = Modifier.padding(20.dp)) {
-
-                    // Campo Usuario / Correo
                     OutlinedTextField(
                         value = correoUser,
                         onValueChange = {
@@ -188,7 +224,6 @@ fun LoginScreen(
 
                     Spacer(modifier = Modifier.height(14.dp))
 
-                    // Campo Contraseña
                     OutlinedTextField(
                         value = contrasena,
                         onValueChange = {
@@ -212,7 +247,6 @@ fun LoginScreen(
                         shape = RoundedCornerShape(12.dp)
                     )
 
-                    // Error Banner
                     AnimatedVisibility(visible = errorMessage != null) {
                         Text(
                             text = errorMessage ?: "",
@@ -222,26 +256,11 @@ fun LoginScreen(
                         )
                     }
 
-                    Spacer(modifier = Modifier.height(20.dp))
+                    Spacer(modifier = Modifier.height(16.dp))
 
-                    // Botón Iniciar Sesión
                     Button(
                         onClick = {
-                            isLoading = true
-                            errorMessage = null
-                            scope.launch {
-                                val result = authRepository.login(correoUser, contrasena, tipoSeleccionado)
-                                isLoading = false
-                                result.onSuccess { state ->
-                                    if (state.tipoUsuario == TipoUsuario.USUARIO) {
-                                        onLoginSuccessUsuario()
-                                    } else {
-                                        onLoginSuccessEmpresa()
-                                    }
-                                }.onFailure { exception ->
-                                    errorMessage = exception.message ?: errGenericMsg
-                                }
-                            }
+                            triggerBiometricAuth()
                         },
                         modifier = Modifier
                             .fillMaxWidth()
@@ -256,45 +275,22 @@ fun LoginScreen(
                                 strokeWidth = 2.dp
                             )
                         } else {
-                            Text(
-                                text = stringResource(R.string.btn_login),
-                                fontSize = 16.sp,
-                                fontWeight = FontWeight.Bold
-                            )
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                Icon(Icons.Default.Fingerprint, contentDescription = null, modifier = Modifier.size(20.dp))
+                                Spacer(modifier = Modifier.width(8.dp))
+                                Text(
+                                    text = stringResource(R.string.btn_login),
+                                    fontSize = 16.sp,
+                                    fontWeight = FontWeight.Bold
+                                )
+                            }
                         }
                     }
                 }
             }
-            /*
-            // Info de credenciales de prueba
-            Card(
-                modifier = Modifier.fillMaxWidth(),
-                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.tertiaryContainer.copy(alpha = 0.6f))
-            ) {
-                Row(
-                    modifier = Modifier.padding(12.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.Info,
-                        contentDescription = null,
-                        tint = MaterialTheme.colorScheme.onTertiaryContainer,
-                        modifier = Modifier.size(22.dp)
-                    )
-                    Spacer(modifier = Modifier.width(10.dp))
-                    Text(
-                        text = stringResource(R.string.login_demo_credentials),
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onTertiaryContainer
-                    )
-                }
-            }
-
-             */
 
             Spacer(modifier = Modifier.height(20.dp))
 
-            // Registrarse
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center

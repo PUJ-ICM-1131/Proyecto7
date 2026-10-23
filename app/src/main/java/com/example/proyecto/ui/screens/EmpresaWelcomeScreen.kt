@@ -103,7 +103,6 @@ fun EmpresaWelcomeScreen(
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            // Datos de la empresa
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(16.dp),
@@ -151,7 +150,6 @@ fun EmpresaWelcomeScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Stats Card
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.6f))
@@ -183,7 +181,6 @@ fun EmpresaWelcomeScreen(
 
             Spacer(modifier = Modifier.height(30.dp))
 
-            // Botón Cerrar Sesión
             Button(
                 onClick = {
                     authRepository.cerrarSesion()

@@ -130,7 +130,6 @@ fun TestDetailScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Card Recompensa y Dirección
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)),
@@ -188,7 +187,6 @@ fun TestDetailScreen(
 
             Spacer(modifier = Modifier.height(20.dp))
 
-            // Descripción
             Text(
                 text = stringResource(R.string.test_description_title),
                 style = MaterialTheme.typography.titleMedium,
@@ -203,7 +201,6 @@ fun TestDetailScreen(
 
             Spacer(modifier = Modifier.height(20.dp))
 
-            // Criterios de Aplicación
             Text(
                 text = stringResource(R.string.test_criteria_title),
                 style = MaterialTheme.typography.titleMedium,
@@ -245,7 +242,6 @@ fun TestDetailScreen(
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            // Botón Inscribirse
             Button(
                 onClick = {
                     testRepository.inscribirATest(test.id)
@@ -265,7 +261,6 @@ fun TestDetailScreen(
 
             Spacer(modifier = Modifier.height(28.dp))
 
-            // Sección de Reseñas / Calificaciones
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.fillMaxWidth(),
@@ -288,7 +283,6 @@ fun TestDetailScreen(
 
             Spacer(modifier = Modifier.height(12.dp))
 
-            // Lista de reseñas
             if (test.resenas.isEmpty()) {
                 Text(
                     text = stringResource(R.string.test_no_reviews),
@@ -343,7 +337,6 @@ fun TestDetailScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Formulario para dejar una reseña
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(12.dp),

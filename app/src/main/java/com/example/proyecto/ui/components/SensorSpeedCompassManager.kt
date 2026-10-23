@@ -47,7 +47,6 @@ fun rememberSensorDataState(): SensorDataState {
                     Sensor.TYPE_ACCELEROMETER -> {
                         gravity = event.values.clone()
 
-                        // Calcular magnitud de aceleración
                         val x = event.values[0]
                         val y = event.values[1]
                         val z = event.values[2]
@@ -57,15 +56,13 @@ fun rememberSensorDataState(): SensorDataState {
                         val dt = (now - lastAccelTime) / 1000f
                         lastAccelTime = now
 
-                        // Si hay un pico repentino de aceleración (movimiento rápido o vehículo)
                         val accelMinusGravity = Math.abs(mag - SensorManager.GRAVITY_EARTH)
-                        if (accelMinusGravity > 4.5f) { // umbral de aceleración rápida
-                            currentSpeedEst += accelMinusGravity * dt * 3.6f // estimación aprox km/h
+                        if (accelMinusGravity > 4.5f) {
+                            currentSpeedEst += accelMinusGravity * dt * 3.6f
                         } else {
                             currentSpeedEst = (currentSpeedEst - 1.0f).coerceAtLeast(0f)
                         }
 
-                        // Advertencia si la aceleración o velocidad estimada supera el umbral de conducción
                         val warning = accelMinusGravity > 8.0f || currentSpeedEst > 25.0f
 
                         sensorState = sensorState.copy(
@@ -79,7 +76,6 @@ fun rememberSensorDataState(): SensorDataState {
                     }
                 }
 
-                // Si se tienen ambos sensores, calcular brújula (azimuth)
                 val g = gravity
                 val m = geomagnetic
                 if (g != null && m != null) {

@@ -101,7 +101,6 @@ fun HistorialTab(
                                     color = MaterialTheme.colorScheme.primary
                                 )
 
-                                // Insignia de Estado de Recompensa (Entregada / En curso)
                                 val esEntregada = item.estadoRecompensa.contains("Entregada", ignoreCase = true)
                                 Surface(
                                     shape = RoundedCornerShape(8.dp),

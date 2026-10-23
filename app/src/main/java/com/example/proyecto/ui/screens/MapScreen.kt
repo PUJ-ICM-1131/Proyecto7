@@ -112,7 +112,6 @@ fun MapScreen(
                 .fillMaxSize()
                 .padding(innerPadding)
         ) {
-            // Mapa Nativo OSM/Mapbox
             AndroidView(
                 factory = { ctx ->
                     MapView(ctx).apply {
@@ -126,7 +125,6 @@ fun MapScreen(
 
                         controller.setCenter(midPoint)
 
-                        // Marcador Usuario
                         val uMarker = Marker(this).apply {
                             position = userPoint
                             title = "Tu Ubicación (Origen)"
@@ -134,7 +132,6 @@ fun MapScreen(
                         }
                         overlays.add(uMarker)
 
-                        // Marcador Destino
                         val dMarker = Marker(this).apply {
                             position = destPoint
                             title = test.nombre
@@ -142,7 +139,6 @@ fun MapScreen(
                         }
                         overlays.add(dMarker)
 
-                        // Línea de Ruta Punteada por Calles
                         val routePolyline = Polyline().apply {
                             outlinePaint.color = android.graphics.Color.parseColor("#1565C0")
                             outlinePaint.strokeWidth = 12f
@@ -161,7 +157,6 @@ fun MapScreen(
                 modifier = Modifier.fillMaxSize()
             )
 
-            // Brújula Flotante (Magnetómetro)
             Surface(
                 shape = CircleShape,
                 color = Color.White.copy(alpha = 0.95f),
@@ -192,7 +187,6 @@ fun MapScreen(
                 }
             }
 
-            // Alerta de Acelerómetro (Conducción Rápida)
             AnimatedVisibility(
                 visible = effectiveWarning,
                 enter = fadeIn(),
@@ -221,80 +215,6 @@ fun MapScreen(
                     }
                 }
             }
-            /*
-            // Panel Inferior de Datos de Navegación
-            Card(
-                modifier = Modifier
-                    .align(Alignment.BottomCenter)
-                    .fillMaxWidth()
-                    .padding(16.dp),
-                shape = RoundedCornerShape(20.dp),
-                elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
-            ) {
-                Column(modifier = Modifier.padding(16.dp)) {
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Row(verticalAlignment = Alignment.CenterVertically) {
-                            Icon(Icons.Default.Place, contentDescription = null, tint = Color(0xFF1565C0))
-                            Spacer(modifier = Modifier.width(6.dp))
-                            Text(
-                                text = "Ruta hacia: ${test.direccion}",
-                                style = MaterialTheme.typography.bodyMedium,
-                                fontWeight = FontWeight.Bold
-                            )
-                        }
-                    }
-
-                    Spacer(modifier = Modifier.height(8.dp))
-                    /*
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Row(verticalAlignment = Alignment.CenterVertically) {
-                            Icon(Icons.Default.CompassCalibration, contentDescription = null, tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(18.dp))
-                            Spacer(modifier = Modifier.width(4.dp))
-                            Text(
-                                text = stringResource(R.string.label_orientation, sensorData.cardinalDirection),
-                                style = MaterialTheme.typography.bodySmall,
-                                fontWeight = FontWeight.SemiBold
-                            )
-                        }
-
-                        Row(verticalAlignment = Alignment.CenterVertically) {
-                            Icon(Icons.Default.LocationOn, contentDescription = null, tint = Color(0xFFD32F2F), modifier = Modifier.size(18.dp))
-                            Spacer(modifier = Modifier.width(4.dp))
-                            Text(
-                                text = stringResource(R.string.label_distance),
-                                style = MaterialTheme.typography.bodySmall,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant
-                            )
-                        }
-                    }
-
-                    Spacer(modifier = Modifier.height(10.dp))
-                    OutlinedButton(
-                        onClick = { simulatedFastSpeed = !simulatedFastSpeed },
-                        modifier = Modifier.fillMaxWidth()
-                    ) {
-                        Icon(Icons.Default.DirectionsCar, contentDescription = null, modifier = Modifier.size(18.dp))
-                        Spacer(modifier = Modifier.width(8.dp))
-                        Text(if (simulatedFastSpeed) stringResource(R.string.btn_stop_simulation) else stringResource(R.string.btn_test_speed_warning))
-                    }
-
-                     */
-
-
-                }
-
-
-            }
-
-             */
         }
     }
 }

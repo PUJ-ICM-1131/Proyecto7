@@ -77,7 +77,7 @@ class MockTestRepository : TestRepository {
             tipoProducto = "Mobiliario",
             latitud = 4.6983,
             longitud = -74.0305,
-            cumpleRequisitos = false, // El usuario no cumple este requisito por estrato o rango
+            cumpleRequisitos = false,
             resenas = listOf(
                 Resena("r5", "Daniela K.", "Excelente soporte lumbar.", 5.0f)
             )
@@ -104,7 +104,7 @@ class MockTestRepository : TestRepository {
         listOf(
             InscripcionTest(
                 id = "ins_1",
-                test = muestraTests[0], // Auriculares Bluetooth
+                test = muestraTests[0],
                 estadoRecompensa = "En curso",
                 evidenciasUris = emptyList(),
                 completado = false
@@ -117,7 +117,7 @@ class MockTestRepository : TestRepository {
         listOf(
             InscripcionTest(
                 id = "ins_h1",
-                test = muestraTests[2], // App Bancaria
+                test = muestraTests[2],
                 estadoRecompensa = "Entregada",
                 evidenciasUris = listOf("https://example.com/evidencia1.jpg"),
                 completado = true

@@ -53,8 +53,6 @@ class MockAuthRepository : AuthRepository {
     override val authState: StateFlow<AuthState> = _authState.asStateFlow()
 
     override suspend fun login(correoOUser: String, contrasena: String, tipo: TipoUsuario): Result<AuthState> {
-        // Validación preparada para conectar con un servidor REST/GraphQL en el futuro.
-        // Usuario de prueba: "prueba" o "prueba@correo.com" con contraseña "1234"
         val userClean = correoOUser.trim().lowercase()
         val passClean = contrasena.trim()
 
@@ -79,7 +77,6 @@ class MockAuthRepository : AuthRepository {
             _authState.value = state
             return Result.success(state)
         } else if (passClean.isNotEmpty() && userClean.isNotEmpty()) {
-            // Permitir login para cualquier credencial para pruebas flexibles
             val state = if (tipo == TipoUsuario.USUARIO) {
                 AuthState(
                     isAuthenticated = true,

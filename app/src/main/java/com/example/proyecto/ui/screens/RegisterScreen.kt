@@ -70,7 +70,7 @@ fun RegisterScreen(
 ) {
     var tipoUsuario by remember { mutableStateOf(TipoUsuario.USUARIO) }
 
-    // Campos Usuario
+
     var nombreUsuario by remember { mutableStateOf("") }
     var edadUsuario by remember { mutableStateOf("") }
     var fechaNacimiento by remember { mutableStateOf("") }
@@ -79,14 +79,14 @@ fun RegisterScreen(
     var correoUsuario by remember { mutableStateOf("") }
     var telefonoUsuario by remember { mutableStateOf("") }
 
-    // Campos Empresa
+
     var nombreEmpresa by remember { mutableStateOf("") }
     var numeroContactoEmpresa by remember { mutableStateOf("") }
     var correoEmpresa by remember { mutableStateOf("") }
     var rutEmpresa by remember { mutableStateOf("") }
     var direccionEmpresa by remember { mutableStateOf("") }
 
-    // Contraseña común
+
     var contrasena by remember { mutableStateOf("") }
     var errorMessage by remember { mutableStateOf<String?>(null) }
     var isLoading by remember { mutableStateOf(false) }
@@ -121,7 +121,7 @@ fun RegisterScreen(
                 modifier = Modifier.padding(bottom = 12.dp)
             )
 
-            // Selector Tipo de Cuenta
+
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.Center
@@ -144,7 +144,7 @@ fun RegisterScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Formulario según tipo
+
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(16.dp),
@@ -153,7 +153,7 @@ fun RegisterScreen(
                 Column(modifier = Modifier.padding(20.dp)) {
 
                     if (tipoUsuario == TipoUsuario.USUARIO) {
-                        // Formulario Usuario
+
                         OutlinedTextField(
                             value = nombreUsuario,
                             onValueChange = { nombreUsuario = it },
@@ -195,7 +195,7 @@ fun RegisterScreen(
 
                         Spacer(modifier = Modifier.height(10.dp))
 
-                        // Estrato Slider
+
                         Column(modifier = Modifier.padding(vertical = 4.dp)) {
                             Text(
                                 text = stringResource(R.string.field_stratum, estratoUsuario.toInt()),
@@ -247,7 +247,7 @@ fun RegisterScreen(
                         )
 
                     } else {
-                        // Formulario Empresa
+
                         OutlinedTextField(
                             value = nombreEmpresa,
                             onValueChange = { nombreEmpresa = it },
@@ -311,7 +311,6 @@ fun RegisterScreen(
 
                     Spacer(modifier = Modifier.height(10.dp))
 
-                    // Contraseña
                     OutlinedTextField(
                         value = contrasena,
                         onValueChange = { contrasena = it },
@@ -365,8 +364,6 @@ fun RegisterScreen(
                                 errorMessage = "La contraseña debe tener al menos 6 caracteres."
                                 return@Button
                             }
-
-                            // Validar los campos adicionales
                             if (tipoUsuario == TipoUsuario.USUARIO) {
                                 if (edadUsuario.toIntOrNull() == null ||
                                     fechaNacimiento.isBlank() ||

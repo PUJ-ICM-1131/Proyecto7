@@ -109,10 +109,6 @@ fun MapboxMapView(
     ) {
         Column {
 
-            // =================================================
-            // MAPA CUADRADO CON ELEMENTOS SUPERPUESTOS
-            // =================================================
-
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -120,10 +116,6 @@ fun MapboxMapView(
                     .clip(RoundedCornerShape(16.dp))
                     .background(Color(0xFFE3F2FD))
             ) {
-
-                // =================================================
-                // MAPA
-                // =================================================
 
                 AndroidView(
                     factory = { ctx ->
@@ -147,7 +139,6 @@ fun MapboxMapView(
                             }
 
 
-                            // Centrar el mapa entre origen y destino
                             if (userLat != null && userLng != null) {
                                 controller.setCenter(
                                     GeoPoint(
@@ -161,7 +152,6 @@ fun MapboxMapView(
                                 )
                             }
 
-                            // Marcador del origen
                             val uMarker = Marker(this).apply {
                                 position = uPoint
                                 title = "Tu Ubicación (Origen)"
@@ -174,7 +164,6 @@ fun MapboxMapView(
 
                             overlays.add(uMarker)
 
-                            // Marcador del destino
                             val dMarker = Marker(this).apply {
                                 position = dPoint
                                 title = test.nombre
@@ -192,12 +181,10 @@ fun MapboxMapView(
                     },
                     update = { mapView ->
 
-                        // Quitar la ruta anterior para evitar duplicados.
                         mapView.overlays.removeAll {
                             it is Polyline
                         }
 
-                        // Dibujar la ruta real recibida de Mapbox.
                         routeResult?.let { result ->
 
                             if (result.points.size >= 2) {
@@ -224,9 +211,6 @@ fun MapboxMapView(
                     modifier = Modifier.fillMaxSize()
                 )
 
-                // =================================================
-                // ALARMA SUPERPUESTA EN LA PARTE SUPERIOR
-                // =================================================
                 Column(modifier=Modifier.align(Alignment.Center)) {
                     AnimatedVisibility(
                         visible = effectiveWarning,
@@ -287,106 +271,6 @@ fun MapboxMapView(
                         }
                     }
                 }
-
-                // =================================================
-                // ETIQUETA DEL ORIGEN
-                // =================================================
-                /*
-                Surface(
-                    shape = RoundedCornerShape(8.dp),
-                    color = Color(0xFF1565C0)
-                        .copy(alpha = 0.9f),
-                    modifier = Modifier
-                        .align(Alignment.BottomStart)
-                        .padding(
-                            start = 12.dp,
-                            bottom = 12.dp
-                        )
-                ) {
-
-                    Row(
-                        modifier = Modifier.padding(
-                            horizontal = 8.dp,
-                            vertical = 4.dp
-                        ),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-
-                        Icon(
-                            imageVector = Icons.Default.Place,
-                            contentDescription = null,
-                            tint = Color.White,
-                            modifier = Modifier.size(14.dp)
-                        )
-
-                        Spacer(
-                            modifier = Modifier.width(4.dp)
-                        )
-
-                        Text(
-                            text = stringResource(
-                                R.string.label_your_location
-                            ),
-                            color = Color.White,
-                            fontSize = 11.sp,
-                            fontWeight = FontWeight.Bold
-                        )
-                    }
-                }
-
-                // =================================================
-                // ETIQUETA DEL DESTINO
-                // =================================================
-
-                Surface(
-                    shape = RoundedCornerShape(8.dp),
-                    color = Color(0xFFD32F2F)
-                        .copy(alpha = 0.9f),
-                    modifier = Modifier
-                        .align(Alignment.TopEnd)
-                        .padding(
-                            top = 12.dp,
-                            end = 12.dp
-                        )
-                ) {
-
-                    Row(
-                        modifier = Modifier.padding(
-                            horizontal = 8.dp,
-                            vertical = 4.dp
-                        ),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-
-                        Icon(
-                            imageVector = Icons.Default.LocationOn,
-                            contentDescription = null,
-                            tint = Color.White,
-                            modifier = Modifier.size(14.dp)
-                        )
-
-                        Spacer(
-                            modifier = Modifier.width(4.dp)
-                        )
-
-                        Text(
-                            text = stringResource(
-                                R.string.label_destination,
-                                test.nombre.take(16) + "..."
-                            ),
-                            color = Color.White,
-                            fontSize = 11.sp,
-                            fontWeight = FontWeight.Bold
-                        )
-                    }
-                }
-
-                 */
-
-                // =================================================
-                // BRÚJULA
-                // =================================================
-
                 Surface(
                     shape = CircleShape,
                     color = Color.White.copy(alpha = 0.95f),
@@ -422,10 +306,6 @@ fun MapboxMapView(
                     }
                 }
 
-                // =================================================
-                // BOTÓN DE PANTALLA COMPLETA
-                // =================================================
-
                 onOpenFullMap?.let { onOpen ->
 
                     Surface(
@@ -460,117 +340,6 @@ fun MapboxMapView(
                     }
                 }
             }
-            /*
-            // =================================================
-            // INFORMACIÓN DE ORIENTACIÓN Y DISTANCIA
-            // =================================================
-
-            Column(
-                modifier = Modifier.padding(16.dp)
-            ) {
-
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-
-                        Icon(
-                            imageVector =
-                                Icons.Default.CompassCalibration,
-                            contentDescription = null,
-                            tint = MaterialTheme.colorScheme.primary,
-                            modifier = Modifier.size(18.dp)
-                        )
-
-                        Spacer(
-                            modifier = Modifier.width(6.dp)
-                        )
-
-                        Text(
-                            text = stringResource(
-                                R.string.label_orientation,
-                                sensorData.cardinalDirection
-                            ),
-                            style = MaterialTheme.typography.bodyMedium,
-                            fontWeight = FontWeight.SemiBold
-                        )
-                    }
-
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-
-                        Icon(
-                            imageVector = Icons.Default.Place,
-                            contentDescription = null,
-                            tint = MaterialTheme.colorScheme.secondary,
-                            modifier = Modifier.size(18.dp)
-                        )
-
-                        Spacer(
-                            modifier = Modifier.width(6.dp)
-                        )
-
-                        Text(
-                            text = stringResource(
-                                R.string.label_distance
-                            ),
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = MaterialTheme.colorScheme
-                                .onSurfaceVariant
-                        )
-                    }
-                }
-
-                Spacer(
-                    modifier = Modifier.height(10.dp)
-                )
-
-             */
-
-                // =================================================
-                // BOTÓN PARA PROBAR LA ALARMA
-                // =================================================
-                /*
-                OutlinedButton(
-                    onClick = {
-                        simulatedFastSpeed = !simulatedFastSpeed
-                    },
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-
-                    Icon(
-                        imageVector = Icons.Default.DirectionsCar,
-                        contentDescription = null,
-                        modifier = Modifier.size(18.dp)
-                    )
-
-                    Spacer(
-                        modifier = Modifier.width(8.dp)
-                    )
-
-                    Text(
-                        text = if (simulatedFastSpeed) {
-                            stringResource(
-                                R.string.btn_stop_simulation
-                            )
-                        } else {
-                            stringResource(
-                                R.string.btn_test_speed_warning
-                            )
-                        }
-                    )
-                }
-
-
-            }
-
-                 */
         }
     }
 }

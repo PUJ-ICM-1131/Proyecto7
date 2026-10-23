@@ -1,8 +1,8 @@
 package com.example.proyecto.ui.screens.tabs
 
+import android.graphics.BitmapFactory
 import android.net.Uri
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -44,10 +44,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.proyecto.MainActivity
 import com.example.proyecto.R
 import com.example.proyecto.data.repository.TestRepository
 import com.example.proyecto.ui.components.MapboxMapView
@@ -58,22 +62,13 @@ fun EnCursoTab(
     testRepository: TestRepository,
     onOpenFullMap: ((String) -> Unit)? = null
 ) {
+    val context = LocalContext.current
     val inscripciones by testRepository.inscripcionesEnCurso.collectAsState()
     var inscripcionSeleccionadaId by remember { mutableStateOf<String?>(null) }
 
     val sensorData = rememberSensorDataState()
 
     val inscripcionActual = inscripciones.find { it.id == inscripcionSeleccionadaId } ?: inscripciones.firstOrNull()
-
-    val mediaPickerLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.GetContent()
-    ) { uri: Uri? ->
-        uri?.let {
-            inscripcionActual?.let { current ->
-                testRepository.agregarEvidencia(current.id, it.toString())
-            }
-        }
-    }
 
     Column(
         modifier = Modifier
@@ -171,6 +166,7 @@ fun EnCursoTab(
                 MapboxMapView(
                     test = inscripcion.test,
                     sensorData = sensorData,
+                    onOpenFullMap = { onOpenFullMap?.invoke(inscripcion.test.id) },
                     modifier = Modifier.padding(bottom = 16.dp)
                 )
 
@@ -195,14 +191,20 @@ fun EnCursoTab(
                             }
 
                             Button(
-                                onClick = { mediaPickerLauncher.launch("image/*") },
+                                onClick = {
+                                    val activity = context as? MainActivity
+                                    activity?.launchImagePicker { uri ->
+                                        uri?.let {
+                                            testRepository.agregarEvidencia(inscripcion.id, it.toString())
+                                        }
+                                    }
+                                },
                                 shape = RoundedCornerShape(10.dp)
                             ) {
                                 Icon(Icons.Default.AddAPhoto, contentDescription = null, modifier = Modifier.size(18.dp))
                                 Spacer(modifier = Modifier.width(6.dp))
                                 Text(stringResource(R.string.btn_upload_media), fontSize = 12.sp)
                             }
-
 
                         HorizontalDivider(modifier = Modifier.padding(vertical = 12.dp))
 
@@ -232,26 +234,9 @@ fun EnCursoTab(
                                 )
                             }
                         } else {
-                            LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                                items(inscripcion.evidenciasUris) {
-                                    Card(
-                                        shape = RoundedCornerShape(8.dp),
-                                        modifier = Modifier.size(80.dp)
-                                    ) {
-                                        Box(
-                                            modifier = Modifier
-                                                .fillMaxSize()
-                                                .background(MaterialTheme.colorScheme.primaryContainer),
-                                            contentAlignment = Alignment.Center
-                                        ) {
-                                            Icon(
-                                                imageVector = Icons.Default.Photo,
-                                                contentDescription = stringResource(R.string.evidence_section_title),
-                                                tint = MaterialTheme.colorScheme.primary,
-                                                modifier = Modifier.size(36.dp)
-                                            )
-                                        }
-                                    }
+                            LazyRow(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                                items(inscripcion.evidenciasUris) { uriStr ->
+                                    EvidenceImageThumbnail(uriString = uriStr)
                                 }
                             }
                         }
@@ -261,5 +246,51 @@ fun EnCursoTab(
         }
 
         Spacer(modifier = Modifier.height(24.dp))
+    }
+}
+
+@Composable
+fun EvidenceImageThumbnail(uriString: String) {
+    val context = LocalContext.current
+    val bitmapState = remember(uriString) {
+        try {
+            val uri = Uri.parse(uriString)
+            val inputStream = context.contentResolver.openInputStream(uri)
+            val bitmap = BitmapFactory.decodeStream(inputStream)
+            inputStream?.close()
+            bitmap?.asImageBitmap()
+        } catch (e: Exception) {
+            null
+        }
+    }
+
+    Card(
+        shape = RoundedCornerShape(12.dp),
+        modifier = Modifier.size(90.dp),
+        elevation = CardDefaults.cardElevation(defaultElevation = 3.dp)
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.primaryContainer),
+            contentAlignment = Alignment.Center
+        ) {
+            val bitmap = bitmapState
+            if (bitmap != null) {
+                Image(
+                    bitmap = bitmap,
+                    contentDescription = "Evidencia Subida",
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier.fillMaxSize()
+                )
+            } else {
+                Icon(
+                    imageVector = Icons.Default.Photo,
+                    contentDescription = "Evidencia",
+                    tint = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.size(36.dp)
+                )
+            }
+        }
     }
 }
