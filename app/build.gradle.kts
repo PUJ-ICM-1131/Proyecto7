@@ -64,5 +64,4 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.tooling)
     implementation(platform("com.google.firebase:firebase-bom:33.16.0"))
     implementation("com.google.firebase:firebase-auth")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.10.2")
 }
